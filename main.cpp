@@ -41,10 +41,11 @@ void instrucciones(std::string nombre_archivo, std::string *&instruccion){
         
         std::string linea;
         int largo_max, cant_programas;
-        archivo>>largo_max;
+        archivo>>largo_max>>cant_programas;
 
         
-
+        archivo.clear(); // Restablecer el puntero del archivo al inicio
+        archivo.seekg(0, std::ios::beg); // Mover el puntºero del archivo al inicio
         
 
         while (std::getline(archivo, linea)) {
