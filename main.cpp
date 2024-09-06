@@ -128,7 +128,7 @@ instrucciones("Programas.txt", instruccion);
 */
 
 
-
+    std::cout<<"soy weco"<<std::endl;
 
     return 0;
 }
