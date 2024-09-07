@@ -14,9 +14,7 @@ char * puntero_operaciones ;
 int * puntero_salida ;
 char * operaciones ;
 
-
 std::string *instruccion;
-
 int largo_max;
 int contador = 0;
 
@@ -34,9 +32,7 @@ void ejecutar () ;
 void extraer_datos();
 void crear_arreglo_operaciones(std::string instrucciones, int largo_salida);
 
-
 };
-
 
 Programa::~Programa() {
     delete[] operaciones;
@@ -49,20 +45,19 @@ Programa::Programa() {
     operaciones = new char [ largo_operaciones ] ;
     puntero_operaciones = operaciones ;
     puntero_salida = NULL ;
-
 }
 
 Programa::Programa(int largo_operaciones){
     this->largo_operaciones = largo_operaciones;
     this->operaciones = new char[largo_operaciones];
     this->puntero_salida = new int[1];
-    *puntero_salida = 0;
+    puntero_salida = nullptr;
+    
 }
 
 char Programa::obtener(){
 
     char especiales[] = {'.' , ':' , '+' , '-' , '<', '>' , '[' , ']' , '!'};  
-  
 
     if(*puntero_salida > 71 || *puntero_salida < 0){
         *puntero_salida = abs(*puntero_salida) % 72;
@@ -92,8 +87,6 @@ char Programa::obtener(){
 
 void Programa::ejecutar_operador(){
 
-      
-    
     while (*puntero_operaciones != '!') {        
 
         if(*puntero_operaciones == '>'){
@@ -116,12 +109,10 @@ void Programa::ejecutar_operador(){
 
         else if(*puntero_operaciones == '.'){
             std::cout<<*puntero_salida;
-            
         }
 
         else if(*puntero_operaciones == ':'){
             std::cout<<obtener();
-            
         }
         
         else if(*puntero_operaciones == '['){
@@ -152,45 +143,34 @@ void Programa::ejecutar_operador(){
                 }
             }     
         }
-       
-        ++puntero_operaciones;
-            
+        ++puntero_operaciones; 
     }
-    
 };
 
 void Programa::crear_arreglo_operaciones(std::string instrucciones, int largo_salida){
-    operaciones = new char[largo_salida];
+    
+    operaciones = new char[largo_operaciones];
     for(int i = 0; i < (int)instrucciones.length(); i++){
         
         operaciones[i] = instrucciones[i];
      
     }
-
-   
     largo_max = largo_salida;
 
 }
 
 void Programa::ejecutar() {
+    
     puntero_salida = new int[largo_max];
     puntero_operaciones = operaciones;
     for(int i = 0; i < largo_max; i++){
-        puntero_salida[i] = 0;
-        
-    }
-    
-
+        puntero_salida[i] = 0;   
+    } 
     for (int i = 0; i < largo_operaciones; i++) {
-        //std::cout<<operaciones[i];
         ejecutar_operador();
-        
-        
-    }
-    std::cout<<std::endl;
-    
+           
+    }    
 }
-
 
 void Programa::mover(char dir){
     
@@ -198,20 +178,14 @@ void Programa::mover(char dir){
         --puntero_salida;
     }
     else if (dir=='>'){
-        
-        ++puntero_salida;
-        
+        ++puntero_salida;       
     }
 }
-
 
 void Programa::asignar ( int valor , int * salida ) {
 
     *salida = valor;
 }
-
-
-//LISTO
 
 void Programa::terminar_programa(){
     delete [] puntero_operaciones;
@@ -219,41 +193,7 @@ void Programa::terminar_programa(){
     delete [] operaciones;
     delete [] instruccion;
    
-
-
 }
-
-
-
-
-
-
-// Programa::Programa(int largo_operaciones){
-//     this->largo_operaciones = largo_operaciones;
-
-
-//     this->puntero_operaciones = new char[largo_operaciones];
-//     this->puntero_salida = new int[1];
-//     this->operaciones = new char[largo_operaciones];
-// }
-
-
-// void Programa::recibir_datos(char *operaciones_interprete, int largo_operaciones){
-//     operaciones = operaciones_interprete;
-//     std::cout<<operaciones[1];
-
-//     for(int i = 0; i<largo_operaciones; i++){
-//         std::cout<<operaciones[i];
-//     }
-// }
-
-
-// void Programa::ejecutar_operador(){
-
-
-// };
-
-
 
 
 #endif

@@ -42,7 +42,7 @@ void instrucciones(std::string nombre_archivo, std::string *&instruccion, int &c
         while(std::getline(archivo, linea)){
 
             aux[i] = linea;
-            //std::cout<<instruccion[i]<<std::endl;
+            
 
             i++;
         }

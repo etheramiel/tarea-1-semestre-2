@@ -77,14 +77,13 @@ class Interprete {
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Interprete::~Interprete() {
-    delete[] programas;
-    delete[] salida;
+
 }
 
 Interprete::Interprete(int cant_programas, int largo_salida) {
     this->cant_programas = cant_programas;
     this->largo_salida = largo_salida;
-    //this->cargado = 0;
+    this->cargado = 0;
     this->programas = new Programa[cant_programas];
     this->salida = new int[largo_salida];
     
@@ -96,12 +95,19 @@ void Interprete::extraer_datos(){
 
 
 void Interprete::cargar_programa(int n) {
-    programas[n] = Programa(instruccion[n].length());
+    
+    extraer_datos();
+    
+    programas[n] = Programa((int)instruccion[n].length());
     numero_programa = n;
+    
 };
 
 void Interprete::ejecutar_programa() {
+    
     programas[numero_programa].crear_arreglo_operaciones(instruccion[numero_programa], largo_salida);
+    programas[numero_programa].ejecutar();
+    
 
 };
 
@@ -109,6 +115,12 @@ void Interprete::mostrar_programa_cargado(){
    std::cout<<instruccion[numero_programa]<<std::endl;
 }
 
+void Interprete::terminar_ejecucion(){
+    programas->terminar_programa();
+    delete [] programas;
+    delete [] salida;
+    delete [] instruccion;
+}
 
 class Programa {
 
@@ -120,8 +132,9 @@ char * operaciones ;
 
 
 std::string *instruccion;
-char *palabras ;
+
 int largo_max;
+int contador = 0;
 
 public :
 void ejecutar_operador () ;
@@ -147,6 +160,11 @@ Programa::~Programa() {
 }
 
 Programa::Programa() {
+
+    largo_operaciones = 0;
+    operaciones = new char [ largo_operaciones ] ;
+    puntero_operaciones = operaciones ;
+    puntero_salida = NULL ;
 
 }
 
@@ -190,14 +208,18 @@ char Programa::obtener(){
 
 void Programa::ejecutar_operador(){
 
-    while (*puntero_operaciones != '!'){
+      
+    
+    while (*puntero_operaciones != '!') {        
 
         if(*puntero_operaciones == '>'){
             mover('>'); 
+            contador++;
         }
 
         else if(*puntero_operaciones == '<'){
             mover('<');
+            contador--;
         }
 
         else if(*puntero_operaciones == '+'){
@@ -210,12 +232,14 @@ void Programa::ejecutar_operador(){
 
         else if(*puntero_operaciones == '.'){
             std::cout<<*puntero_salida;
+            
         }
 
         else if(*puntero_operaciones == ':'){
-            std::cout<<*puntero_salida;
+            std::cout<<obtener();
+            
         }
-
+        
         else if(*puntero_operaciones == '['){
             if(*puntero_salida == 0){
                 int contador = 1;
@@ -244,23 +268,43 @@ void Programa::ejecutar_operador(){
                 }
             }     
         }
+       
+        ++puntero_operaciones;
             
     }
+    
 };
 
+void Programa::crear_arreglo_operaciones(std::string instrucciones, int largo_salida){
+    operaciones = new char[largo_salida];
+    for(int i = 0; i < (int)instrucciones.length(); i++){
+        
+        operaciones[i] = instrucciones[i];
+     
+    }
 
+   
+    largo_max = largo_salida;
 
-void Programa::ejecutar(){
+}
+
+void Programa::ejecutar() {
     
     puntero_salida = new int[largo_max];
     puntero_operaciones = operaciones;
-    
-    for(int i = 0; i<largo_operaciones ; i++){
-        ejecutar_operador();
-        ++puntero_operaciones;
+    for(int i = 0; i < largo_max; i++){
+        puntero_salida[i] = 0;
+        
     }
-
-
+    
+    
+    for (int i = 0; i < largo_operaciones; i++) {
+        ejecutar_operador();
+        
+        
+    }
+    
+    
 }
 
 
@@ -270,6 +314,7 @@ void Programa::mover(char dir){
         --puntero_salida;
     }
     else if (dir=='>'){
+        
         ++puntero_salida;
         
     }
@@ -283,12 +328,14 @@ void Programa::asignar ( int valor , int * salida ) {
 
 
 //LISTO
-void Programa::crear_arreglo_operaciones(std::string instrucciones, int largo_salida){
-    for(int i = 0; i < (int)instrucciones.length(); i++){
-        operaciones[i] = instrucciones[i];
-    }
 
-    largo_max = largo_salida;
+void Programa::terminar_programa(){
+    delete [] puntero_operaciones;
+    delete [] puntero_salida;
+    delete [] operaciones;
+    delete [] instruccion;
+   
+
 
 }
 

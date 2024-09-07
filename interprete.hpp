@@ -15,25 +15,24 @@ class Interprete {
         Programa * programas ;
         int * salida ;
 
-
+        bool programa_cargado;
         int numero_programa;
         std::string *instruccion;
 
-
     public :
-        Interprete ( int cant_programas , int largo_salidas ) ;     //LISTO
-        void cargar_programa ( int n ) ;                         //LISTO            
-        void ejecutar_programa () ;                 //LISTO 
-        void mostrar_programa_cargado () ;                                  //LISTO
+        Interprete ( int cant_programas , int largo_salidas ) ;
+        void cargar_programa ( int n ) ;                                    
+        void ejecutar_programa () ;                 
+        void mostrar_programa_cargado () ;                                  
         void terminar_ejecucion () ;
 
-        ~Interprete() ;                                             //LISTO 
-        void extraer_datos();                                   //LISTO
+        ~Interprete() ;                                            
+        void extraer_datos();                                   
 
 
 };
 
-//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 Interprete::~Interprete() {
 
@@ -42,9 +41,10 @@ Interprete::~Interprete() {
 Interprete::Interprete(int cant_programas, int largo_salida) {
     this->cant_programas = cant_programas;
     this->largo_salida = largo_salida;
-    //this->cargado = 0;
+    this->cargado = 0;
     this->programas = new Programa[cant_programas];
     this->salida = new int[largo_salida];
+    this->programa_cargado = false;
     
 };
 
@@ -54,22 +54,31 @@ void Interprete::extraer_datos(){
 
 
 void Interprete::cargar_programa(int n) {
+    
     extraer_datos();
-    std::cout<<instruccion[n].length()<<std::endl;
+    programa_cargado = true;
     programas[n] = Programa((int)instruccion[n].length());
     numero_programa = n;
- 
+    
 };
 
 void Interprete::ejecutar_programa() {
-    programas[numero_programa].crear_arreglo_operaciones(instruccion[numero_programa], largo_salida);
-    programas[numero_programa].ejecutar();
     
+    if(programa_cargado){
+        programas[numero_programa].crear_arreglo_operaciones(instruccion[numero_programa], largo_salida);
+    
+        programas[numero_programa].ejecutar();
+    }
 
 };
 
 void Interprete::mostrar_programa_cargado(){
-   std::cout<<instruccion[numero_programa]<<std::endl;
+    if(programa_cargado){
+        std::cout<<instruccion[numero_programa]<<std::endl;
+    }
+    else{
+        std::cout<<"sin instrucciones"<<std::endl;
+    }
 }
 
 void Interprete::terminar_ejecucion(){
@@ -82,64 +91,3 @@ void Interprete::terminar_ejecucion(){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Interprete::Interprete(int cant_programas, int largo_salida) {
-//     this->cant_programas = cant_programas;
-//     this->largo_salida = largo_salida;
-// };
-
-
-
-
-// void Interprete::recibir_instrucciones(std::string *instruccion, int &cant_programas) {
-//     instrucciones_recibidas =  instruccion;
-// };
-
-
-
-// void Interprete::cargar_programa(int n) {
-    
-//     Programa programa_interprete((int)instrucciones_recibidas[n].length());
-
-//     char *operaciones_caracter;
-//     operaciones_caracter = new char[(int)instrucciones_recibidas[n].length()];
-//     for(int i = 0; i<(int)instrucciones_recibidas[n].length(); i++){
-//         operaciones_caracter[i] = instrucciones_recibidas[n][i];
-//     }   
-
-//     programa_interprete.recibir_datos(operaciones_caracter, (int)instrucciones_recibidas[n].length());
-
-
-//};
