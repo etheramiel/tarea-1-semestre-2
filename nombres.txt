@@ -1,0 +1,7 @@
+Katherine Huidobro 202304656-6 200
+Hizo las funciones borrar_recursivo, InOrder_a_String, separar, limpiar, reverso, reverso_recursivo, agregar_nodo_BST, compute_height.
+Apoyo con la lógica para usar las funciones en el main con la lectura del archivo. 
+
+Martin Pardo 202304574-8 200
+Hizo las funciones balancear, recortar, juntar_2_nodos, juntar, actualizar, agregar, mostrar_Arbol_In_Order, mostrar_Arbol, stringizar, insertar, eliminar.
+Hizo la lógica para usar las funciones en el main con la lectura del archivo. 
